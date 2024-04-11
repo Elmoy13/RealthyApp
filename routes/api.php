@@ -31,7 +31,12 @@ Route::middleware('auth:sanctum')->delete('/logout', [AuthController::class, 'lo
 Route::get('/users/show/{id}',[UsersController::class,'showById']);
 
 Route::controller(BBVA_Consultation_Controller::Class)->group(function(){
-        Route::get('/getSuggestMortgages','getSuggestMortgages');
-        Route::get('/getSimulateMortgage','getSimulateMortgage');
         Route::post('/getTokenAccess','getTokenAccess');
+    });
+
+    Route::group(['middleware' => ['refresh.token']], function () {
+        Route::controller(BBVA_Consultation_Controller::class)->group(function(){
+            Route::get('/getSuggestMortgages', 'getSuggestMortgages');
+            Route::get('/getSimulateMortgage', 'getSimulateMortgage');
+        });
     });
