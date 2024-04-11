@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\BBVA_Consultation_Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,12 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(AuthController::Class)->group(function(){
-
     Route::post('/register', 'register');
     Route::post('/login', 'login');
-
-
 });
+
 Route::put('/updateRandom/{email}', [AuthController::class,'updateRandomPassword']);
 Route::middleware('auth:sanctum')->delete('/logout', [AuthController::class, 'logout']);
 Route::get('/users/show/{id}',[UsersController::class,'showById']);
+
+Route::controller(BBVA_Consultation_Controller::Class)->group(function(){
+        Route::get('/getSuggestMortgages','getSuggestMortgages');
+        Route::get('/getSimulateMortgage','getSimulateMortgage');
+        Route::post('/getTokenAccess','getTokenAccess');
+    });
